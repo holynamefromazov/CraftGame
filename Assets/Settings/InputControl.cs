@@ -129,7 +129,7 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Camera Сontrol"",
+                    ""name"": ""Camera Control"",
                     ""type"": ""Value"",
                     ""id"": ""70e722ed-8347-488a-b61b-42c38f54737e"",
                     ""expectedControlType"": ""Vector2"",
@@ -426,59 +426,15 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Mouse"",
-                    ""id"": ""9fab7ec9-382f-4c57-904e-4af08a4eb6a9"",
-                    ""path"": ""2DVector"",
+                    ""name"": """",
+                    ""id"": ""2ae2e42c-f0a0-428c-9e45-e5bf095270c5"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Camera Сontrol"",
-                    ""isComposite"": true,
+                    ""groups"": "";Keyboard and mouse"",
+                    ""action"": ""Camera Control"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""7ec7870c-e717-4567-8780-e20da2eb0bf8"",
-                    ""path"": ""<Mouse>/delta/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard and mouse"",
-                    ""action"": ""Camera Сontrol"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""81df4bf7-fc51-4c44-b4a8-50501f99b208"",
-                    ""path"": ""<Mouse>/delta/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard and mouse"",
-                    ""action"": ""Camera Сontrol"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""4fce5bf5-518e-49c4-a192-772160f932e0"",
-                    ""path"": ""<Mouse>/delta/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard and mouse"",
-                    ""action"": ""Camera Сontrol"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""733ce31f-5a3c-4bad-bf9a-fff4ceeaeef5"",
-                    ""path"": ""<Mouse>/delta/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard and mouse"",
-                    ""action"": ""Camera Сontrol"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""StickR"",
@@ -487,7 +443,7 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Camera Сontrol"",
+                    ""action"": ""Camera Control"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -498,7 +454,7 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Camera Сontrol"",
+                    ""action"": ""Camera Control"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -509,7 +465,7 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Camera Сontrol"",
+                    ""action"": ""Camera Control"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -520,7 +476,7 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Camera Сontrol"",
+                    ""action"": ""Camera Control"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -531,7 +487,7 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Camera Сontrol"",
+                    ""action"": ""Camera Control"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -1121,7 +1077,7 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_CameraСontrol = m_Player.FindAction("Camera Сontrol", throwIfNotFound: true);
+        m_Player_CameraControl = m_Player.FindAction("Camera Control", throwIfNotFound: true);
         // Vehicle
         m_Vehicle = asset.FindActionMap("Vehicle", throwIfNotFound: true);
         m_Vehicle_Move = m_Vehicle.FindAction("Move", throwIfNotFound: true);
@@ -1216,7 +1172,7 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_CameraСontrol;
+    private readonly InputAction m_Player_CameraControl;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1245,9 +1201,9 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         /// <summary>
-        /// Provides access to the underlying input action "Player/CameraСontrol".
+        /// Provides access to the underlying input action "Player/CameraControl".
         /// </summary>
-        public InputAction @CameraСontrol => m_Wrapper.m_Player_CameraСontrol;
+        public InputAction @CameraControl => m_Wrapper.m_Player_CameraControl;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1286,9 +1242,9 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @CameraСontrol.started += instance.OnCameraСontrol;
-            @CameraСontrol.performed += instance.OnCameraСontrol;
-            @CameraСontrol.canceled += instance.OnCameraСontrol;
+            @CameraControl.started += instance.OnCameraControl;
+            @CameraControl.performed += instance.OnCameraControl;
+            @CameraControl.canceled += instance.OnCameraControl;
         }
 
         /// <summary>
@@ -1312,9 +1268,9 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @CameraСontrol.started -= instance.OnCameraСontrol;
-            @CameraСontrol.performed -= instance.OnCameraСontrol;
-            @CameraСontrol.canceled -= instance.OnCameraСontrol;
+            @CameraControl.started -= instance.OnCameraControl;
+            @CameraControl.performed -= instance.OnCameraControl;
+            @CameraControl.canceled -= instance.OnCameraControl;
         }
 
         /// <summary>
@@ -1624,12 +1580,12 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Camera Сontrol" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Camera Control" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCameraСontrol(InputAction.CallbackContext context);
+        void OnCameraControl(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Vehicle" which allows adding and removing callbacks.

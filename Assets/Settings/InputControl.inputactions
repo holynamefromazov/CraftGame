@@ -43,7 +43,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Camera Сontrol",
+                    "name": "Camera Control",
                     "type": "Value",
                     "id": "70e722ed-8347-488a-b61b-42c38f54737e",
                     "expectedControlType": "Vector2",
@@ -340,59 +340,15 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Mouse",
-                    "id": "9fab7ec9-382f-4c57-904e-4af08a4eb6a9",
-                    "path": "2DVector",
+                    "name": "",
+                    "id": "2ae2e42c-f0a0-428c-9e45-e5bf095270c5",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Camera Сontrol",
-                    "isComposite": true,
+                    "groups": ";Keyboard and mouse",
+                    "action": "Camera Control",
+                    "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "7ec7870c-e717-4567-8780-e20da2eb0bf8",
-                    "path": "<Mouse>/delta/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard and mouse",
-                    "action": "Camera Сontrol",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "81df4bf7-fc51-4c44-b4a8-50501f99b208",
-                    "path": "<Mouse>/delta/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard and mouse",
-                    "action": "Camera Сontrol",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "4fce5bf5-518e-49c4-a192-772160f932e0",
-                    "path": "<Mouse>/delta/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard and mouse",
-                    "action": "Camera Сontrol",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "733ce31f-5a3c-4bad-bf9a-fff4ceeaeef5",
-                    "path": "<Mouse>/delta/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard and mouse",
-                    "action": "Camera Сontrol",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "StickR",
@@ -401,7 +357,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Camera Сontrol",
+                    "action": "Camera Control",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -412,7 +368,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Camera Сontrol",
+                    "action": "Camera Control",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -423,7 +379,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Camera Сontrol",
+                    "action": "Camera Control",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -434,7 +390,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Camera Сontrol",
+                    "action": "Camera Control",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -445,7 +401,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Camera Сontrol",
+                    "action": "Camera Control",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

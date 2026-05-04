@@ -632,8 +632,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 5
   jumpForce: 5
-  cameraSensitivity: 1
   playerCamera: {fileID: 490384744}
+  mouseCameraRotationSensitivity: 0.3
+  gamepadCameraRotationSensitivity: 1.2
 --- !u!54 &1443262701
 Rigidbody:
   m_ObjectHideFlags: 0

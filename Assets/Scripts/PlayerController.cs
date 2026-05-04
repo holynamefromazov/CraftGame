@@ -5,8 +5,9 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private float cameraSensitivity = 1f;
     [SerializeField] private Camera playerCamera;
+    [SerializeField] private float mouseCameraRotationSensitivity = 1f;
+    [SerializeField] private float gamepadCameraRotationSensitivity = 1f;
 
     private InputControl InputControl;
     private Rigidbody rb;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
     private Vector3 moveDirection;
     private Vector2 lookDelta;
     private Vector2 cameraRotation;
+    private bool isGamepadInput;
     private bool isGrounded;
 
     private void Awake()
@@ -76,18 +78,21 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
         DetectDevice(context);
     }
 
-    public void OnCameraСontrol(InputAction.CallbackContext context)
+    public void OnCameraControl(InputAction.CallbackContext context)
     {
         lookDelta = context.ReadValue<Vector2>();
         DetectDevice(context);
     }
     private void CameraControl()
     {
-        cameraRotation.x += lookDelta.x * cameraSensitivity;
-        cameraRotation.y += lookDelta.y * cameraSensitivity;
-        cameraRotation.y = Mathf.Clamp(cameraRotation.y, -90f, 90f);
-        playerCamera.transform.localRotation = Quaternion.Euler(-cameraRotation.y, 0, 0);
-        transform.localRotation = Quaternion.Euler(0, cameraRotation.x, 0);
+
+        cameraRotation += lookDelta * (isGamepadInput ? gamepadCameraRotationSensitivity : mouseCameraRotationSensitivity);
+
+        cameraRotation.y = Mathf.Clamp(cameraRotation.y, -60f, 60f);
+
+        transform.localRotation = Quaternion.Euler(0f, cameraRotation.x, 0f);
+        playerCamera.transform.localRotation = Quaternion.Euler(-cameraRotation.y, 0f, 0f);
+
     }
     private void Move()
     {
@@ -111,8 +116,7 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
     private void DetectDevice(InputAction.CallbackContext context)
     {
         var device = context.control.device;
-        bool isGamepad = device is Gamepad;
-        Debug.Log("Device used:" + (isGamepad ? "Gamepad" : "Keyboard/Mouse"));
+        isGamepadInput = device is Gamepad;
     }
 
 }
