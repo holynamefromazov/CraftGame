@@ -108,4 +108,18 @@ public class PlayerInventory : MonoBehaviour
         inventorySlots.Clear();
         OnInventoryChanged?.Invoke();
     }
+
+#if UNITY_EDITOR
+
+    [ContextMenu("Debug Print Inventory")]
+    public void DebugPrintInventory()
+    {
+        Debug.Log("Current Inventory:");
+        foreach (var slot in inventorySlots)
+        {
+            Debug.Log($"- {slot.Item.ItemName} x{slot.Quantity} (Total Weight: {slot.Item.Weight * slot.Quantity})");
+        }
+        Debug.Log($"Total Inventory Weight: {TotalWeight}");
+    }
+#endif
 }

@@ -3,8 +3,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
 {
+    [SerializeField] private PlayerEquipment equipment;
+    [SerializeField] private PlayerInventory inventory;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float interactionRange = 1f;
+    [SerializeField] private string interactionLayerMask = "Interactive";
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float mouseCameraRotationSensitivity = 1f;
     [SerializeField] private float gamepadCameraRotationSensitivity = 1f;
@@ -17,6 +21,8 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
     private Vector2 cameraRotation;
     private bool isGamepadInput;
     private bool isGrounded;
+    private RaycastHit hitInfo;
+    private Ray ray;
 
     private void Awake()
     {
@@ -67,14 +73,44 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed)
-            Debug.Log("Attack");
+        {
+            if (equipment?.CurrentWeapon == null) return;
+            ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            if (Physics.Raycast(ray, out hitInfo, equipment.CurrentWeapon.Range))
+            {
+                var damageable = hitInfo.collider.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(equipment.CurrentWeapon.Damage);
+                }
+            }
+        }
         DetectDevice(context);
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
+
         if (context.performed)
-            Debug.Log("Interact");
+        {
+            ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            if (Physics.Raycast(ray, out hitInfo, interactionRange, LayerMask.GetMask(interactionLayerMask)))
+            {
+                if (hitInfo.collider.TryGetComponent(out IInteractable interactable))
+                {
+                    if (interactable.Interact(this))
+                        return;
+                }
+
+                if (hitInfo.collider.TryGetComponent(out ICollectable collectable))
+                {
+                    if (collectable.Collect(inventory))
+                        return;
+                }
+
+                Debug.Log("No interactable or collectable object in range.");
+            }
+        }
         DetectDevice(context);
     }
 

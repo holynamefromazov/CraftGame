@@ -13,22 +13,16 @@ public enum ItemCategory
 public class BaseItem : ScriptableObject
 {
     [Header("Base Item Properties")]
-    [SerializeField]
-    private string id;
+    [SerializeField] private string id;
     public string ID => id;
-    [SerializeField]
-    private string itemName;
+    [SerializeField] private string itemName;
     public string ItemName => itemName;
-    [SerializeField]
-    protected ItemCategory category;
+    [SerializeField] protected ItemCategory category;
     public ItemCategory Category => category;
-    [SerializeField]
-    private Sprite itemIcon;
+    [SerializeField] private Sprite itemIcon;
     public Sprite ItemIcon => itemIcon;
-    [SerializeField]
-    private float weight = 0.1f;
+    [SerializeField] private float weight = 0.1f;
     public float Weight => weight;
-
 #if UNITY_EDITOR
     private void OnEnable()
     {
