@@ -13,16 +13,16 @@ public enum ItemCategory
 public class BaseItem : ScriptableObject
 {
     [Header("Base Item Properties")]
-    [SerializeField] private string id;
-    public string ID => id;
-    [SerializeField] private string itemName;
-    public string ItemName => itemName;
-    [SerializeField] protected ItemCategory category;
-    public ItemCategory Category => category;
-    [SerializeField] private Sprite itemIcon;
-    public Sprite ItemIcon => itemIcon;
-    [SerializeField] private float weight = 0.1f;
-    public float Weight => weight;
+    [SerializeField] private string _id;
+    public string ID => _id;
+    [SerializeField] private string _itemName;
+    public string ItemName => _itemName;
+    [SerializeField] protected ItemCategory _category;
+    public ItemCategory Category => _category;
+    [SerializeField] private Sprite _itemIcon;
+    public Sprite ItemIcon => _itemIcon;
+    [SerializeField] private float _weight = 0.1f;
+    public float Weight => _weight;
 #if UNITY_EDITOR
     private void OnEnable()
     {
@@ -32,26 +32,26 @@ public class BaseItem : ScriptableObject
     {
         IdAndNameSetup();
 
-        if (itemIcon == null)
+        if (_itemIcon == null)
         {
             Debug.LogWarning($"{this.GetType()} '{this.name}' does not have an icon assigned.");
         }
 
-        if (weight < 0)
+        if (_weight < 0)
         {
-            Debug.LogWarning($"{this.GetType()} '{this.name}' has a negative weight ({weight}). Weight should be a non-negative value.");
+            Debug.LogWarning($"{this.GetType()} '{this.name}' has a negative weight ({_weight}). Weight should be a non-negative value.");
         }
     }
     private void IdAndNameSetup()
     {
-        itemName = string.IsNullOrEmpty(itemName) ? this.name : itemName;
-        if (string.IsNullOrEmpty(id))
+        _itemName = string.IsNullOrEmpty(_itemName) ? this.name : _itemName;
+        if (string.IsNullOrEmpty(_id))
         {
-            id = itemName.ToLower().Replace(" ", "_");
+            _id = _itemName.ToLower().Replace(" ", "_");
         }
         else
         {
-            id = id.ToLower().Replace(" ", "_");
+            _id = _id.ToLower().Replace(" ", "_");
         }
     }
 #endif

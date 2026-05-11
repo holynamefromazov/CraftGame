@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class PlayerEquipment : MonoBehaviour
 {
-    [SerializeField] private IWeapon currentWeapon;
-    public IWeapon CurrentWeapon => currentWeapon;
-    [SerializeField] private PlayerInventory inventory;
+    [SerializeField] private IWeapon _currentWeapon;
+    public IWeapon CurrentWeapon => _currentWeapon;
+    [SerializeField] private PlayerInventory _inventory;
     public void EquipWeapon(IWeapon weapon)
     {
         if (weapon != null)
         {
-            currentWeapon = weapon;
+            _currentWeapon = weapon;
         }
         else
         {

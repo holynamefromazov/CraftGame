@@ -11,9 +11,9 @@ public enum SpecialItemCategory
 public class SpecialItem : BaseItem
 {
     [Header("Special Item Properties")]
-    [SerializeField] private SpecialItemCategory specialCategory;
-    public SpecialItemCategory SpecialCategory => specialCategory;
+    [SerializeField] private SpecialItemCategory _specialCategory;
+    public SpecialItemCategory SpecialCategory => _specialCategory;
 
-    [SerializeField, TextArea] private string specialEffectDescription;
-    public string SpecialEffectDescription => specialEffectDescription;
+    [SerializeField, TextArea] private string _specialEffectDescription;
+    public string SpecialEffectDescription => _specialEffectDescription;
 }

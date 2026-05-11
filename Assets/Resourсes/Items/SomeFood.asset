@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690ec8abb90a5e14494117756883760a, type: 3}
   m_Name: SomeFood
   m_EditorClassIdentifier: Assembly-CSharp::BaseItem
-  id: some_food
-  itemName: Some food
-  category: 0
-  itemIcon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  weight: 0.1
+  _id: some_food
+  _itemName: Some Food
+  _category: 0
+  _itemIcon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  _weight: 0.1

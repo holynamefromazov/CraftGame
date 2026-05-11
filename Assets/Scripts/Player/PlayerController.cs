@@ -3,49 +3,55 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
 {
-    [SerializeField] private PlayerEquipment equipment;
-    [SerializeField] private PlayerInventory inventory;
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private float interactionRange = 1f;
-    [SerializeField] private string interactionLayerMask = "Interactive";
-    [SerializeField] private Camera playerCamera;
-    [SerializeField] private float mouseCameraRotationSensitivity = 1f;
-    [SerializeField] private float gamepadCameraRotationSensitivity = 1f;
+    [SerializeField] private PlayerEquipment _equipment;
+    [SerializeField] private PlayerInventory _inventory;
+    [SerializeField] private Camera _playerCamera;
+    [SerializeField] private CharacterController _characterController;
+    [Header("Settings")]
+    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private float _jumpHight = 2f;
+    [SerializeField] private float _gravity = -9.81f;
+    [SerializeField] private float _interactionRange = 1f;
+    [SerializeField] private LayerMask _interactionLayerMask = 1 << 6; // Default to "Interactive" layer
+    [SerializeField] private float _mouseCameraRotationSensitivity = 1f;
+    [SerializeField] private float _gamepadCameraRotationSensitivity = 1f;
 
-    private InputControl InputControl;
-    private Rigidbody rb;
-    private Vector2 moveInput;
-    private Vector3 moveDirection;
-    private Vector2 lookDelta;
-    private Vector2 cameraRotation;
+    private InputControl _inputControl;
+    private Vector2 _moveInput;
+    private Vector3 _desiredMove;
+    private float _verticalVelocity;
+    private Vector2 _lookDelta;
+    private Vector2 _cameraRotation;
     private bool isGamepadInput;
-    private bool isGrounded;
-    private RaycastHit hitInfo;
-    private Ray ray;
+    private bool isGrounded => _characterController.isGrounded;
+    private RaycastHit _hitInfo;
+    private Ray _ray;
 
     private void Awake()
     {
-        InputControl = new InputControl();
-        rb = GetComponent<Rigidbody>();
+        _inputControl = new InputControl();
 
         // Назначаем этот скрипт как обработчик
-        InputControl.Player.SetCallbacks(this);
+        _inputControl.Player.SetCallbacks(this);
     }
 
     private void OnEnable()
     {
-        InputControl.Player.Enable();
+        _inputControl.Player.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void OnDisable()
     {
-        InputControl.Player.Disable();
+        _inputControl.Player.Disable();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private void FixedUpdate()
     {
-        Move();
+        Move(Time.fixedDeltaTime);
     }
 
     private void LateUpdate()
@@ -56,7 +62,7 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
     // Реализация интерфейса
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
+        _moveInput = context.ReadValue<Vector2>();
         DetectDevice(context);
     }
 
@@ -64,9 +70,9 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
     {
         if (isGrounded && context.performed)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
+            _verticalVelocity = Mathf.Sqrt(-2f * _gravity * _jumpHight);
         }
+
         DetectDevice(context);
     }
 
@@ -74,14 +80,14 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
     {
         if (context.performed)
         {
-            if (equipment?.CurrentWeapon == null) return;
-            ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            if (Physics.Raycast(ray, out hitInfo, equipment.CurrentWeapon.Range))
+            if (_equipment?.CurrentWeapon == null) return;
+            _ray = _playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            if (Physics.Raycast(_ray, out _hitInfo, _equipment.CurrentWeapon.Range))
             {
-                var damageable = hitInfo.collider.GetComponent<IDamageable>();
+                var damageable = _hitInfo.collider.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    damageable.TakeDamage(equipment.CurrentWeapon.Damage);
+                    damageable.TakeDamage(_equipment.CurrentWeapon.Damage);
                 }
             }
         }
@@ -93,18 +99,18 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
 
         if (context.performed)
         {
-            ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            if (Physics.Raycast(ray, out hitInfo, interactionRange, LayerMask.GetMask(interactionLayerMask)))
+            _ray = _playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            if (Physics.Raycast(_ray, out _hitInfo, _interactionRange, _interactionLayerMask))
             {
-                if (hitInfo.collider.TryGetComponent(out IInteractable interactable))
+                if (_hitInfo.collider.TryGetComponent(out IInteractable interactable))
                 {
                     if (interactable.Interact(this))
                         return;
                 }
 
-                if (hitInfo.collider.TryGetComponent(out ICollectable collectable))
+                if (_hitInfo.collider.TryGetComponent(out ICollectable collectable))
                 {
-                    if (collectable.Collect(inventory))
+                    if (collectable.Collect(_inventory))
                         return;
                 }
 
@@ -116,37 +122,34 @@ public class PlayerController : MonoBehaviour, InputControl.IPlayerActions
 
     public void OnCameraControl(InputAction.CallbackContext context)
     {
-        lookDelta = context.ReadValue<Vector2>();
+        _lookDelta = context.ReadValue<Vector2>();
         DetectDevice(context);
     }
     private void CameraControl()
     {
 
-        cameraRotation += lookDelta * (isGamepadInput ? gamepadCameraRotationSensitivity : mouseCameraRotationSensitivity);
+        _cameraRotation += _lookDelta * (isGamepadInput ? _gamepadCameraRotationSensitivity : _mouseCameraRotationSensitivity);
 
-        cameraRotation.y = Mathf.Clamp(cameraRotation.y, -60f, 60f);
+        _cameraRotation.y = Mathf.Clamp(_cameraRotation.y, -60f, 60f);
 
-        transform.localRotation = Quaternion.Euler(0f, cameraRotation.x, 0f);
-        playerCamera.transform.localRotation = Quaternion.Euler(-cameraRotation.y, 0f, 0f);
+        transform.localRotation = Quaternion.Euler(0f, _cameraRotation.x, 0f);
+        _playerCamera.transform.localRotation = Quaternion.Euler(-_cameraRotation.y, 0f, 0f);
 
     }
-    private void Move()
+    private void Move(float deltaTime)
     {
-        moveDirection.Set(moveInput.x, 0, moveInput.y);
-        if (moveDirection.magnitude > 1.01f)
+        _desiredMove = (transform.forward * _moveInput.y) + (transform.right * _moveInput.x);
+        if (_desiredMove.magnitude > 1.01f)
         {
-            moveDirection.Normalize();
+            _desiredMove.Normalize();
         }
 
-        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
+        _verticalVelocity += _gravity * deltaTime;
+        if (isGrounded && _verticalVelocity < 0f)
         {
-            isGrounded = true;
+            _verticalVelocity = -2f;
         }
+        _characterController.Move((_desiredMove * _moveSpeed + Vector3.up * _verticalVelocity) * deltaTime);
     }
 
     private void DetectDevice(InputAction.CallbackContext context)

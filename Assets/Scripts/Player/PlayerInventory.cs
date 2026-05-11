@@ -4,14 +4,14 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     [SerializeField]
-    private List<InventorySlot> inventorySlots = new();
+    private List<InventorySlot> _inventorySlots = new();
     public float TotalWeight => CalculateTotalWeight();
     public event System.Action OnInventoryChanged;
 
     private float CalculateTotalWeight()
     {
         float totalWeight = 0f;
-        foreach (var slot in inventorySlots)
+        foreach (var slot in _inventorySlots)
         {
             totalWeight += slot.Item.Weight * slot.Quantity;
         }
@@ -25,14 +25,14 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
-        var existingSlot = inventorySlots.Find(slot => slot.Item.ID == item.ID);
+        var existingSlot = _inventorySlots.Find(slot => slot.Item.ID == item.ID);
         if (existingSlot != null)
         {
             existingSlot.AddQuantity(quantity);
         }
         else
         {
-            inventorySlots.Add(new InventorySlot(item, quantity));
+            _inventorySlots.Add(new InventorySlot(item, quantity));
         }
         OnInventoryChanged?.Invoke();
     }
@@ -44,13 +44,13 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
-        var existingSlot = inventorySlots.Find(slot => slot.Item.ID == item.ID);
+        var existingSlot = _inventorySlots.Find(slot => slot.Item.ID == item.ID);
         if (existingSlot != null)
         {
             existingSlot.RemoveQuantity(quantity);
             if (existingSlot.Quantity <= 0)
             {
-                inventorySlots.Remove(existingSlot);
+                _inventorySlots.Remove(existingSlot);
             }
         }
         else
@@ -62,7 +62,7 @@ public class PlayerInventory : MonoBehaviour
 
     public BaseItem SearchItemByID(string id)
     {
-        var slot = inventorySlots.Find(s => s.Item.ID == id);
+        var slot = _inventorySlots.Find(s => s.Item.ID == id);
         return slot != null ? slot.Item : null;
     }
 
@@ -74,10 +74,10 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
-        var existingSlot = inventorySlots.Find(slot => slot.Item.ID == item.ID);
+        var existingSlot = _inventorySlots.Find(slot => slot.Item.ID == item.ID);
         if (existingSlot != null)
         {
-            inventorySlots.Remove(existingSlot);
+            _inventorySlots.Remove(existingSlot);
         }
         else
         {
@@ -93,9 +93,9 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
-        if (inventorySlots.Contains(slot))
+        if (_inventorySlots.Contains(slot))
         {
-            inventorySlots.Remove(slot);
+            _inventorySlots.Remove(slot);
         }
         else
         {
@@ -105,7 +105,7 @@ public class PlayerInventory : MonoBehaviour
     }
     public void ClearInventory()
     {
-        inventorySlots.Clear();
+        _inventorySlots.Clear();
         OnInventoryChanged?.Invoke();
     }
 
@@ -115,7 +115,7 @@ public class PlayerInventory : MonoBehaviour
     public void DebugPrintInventory()
     {
         Debug.Log("Current Inventory:");
-        foreach (var slot in inventorySlots)
+        foreach (var slot in _inventorySlots)
         {
             Debug.Log($"- {slot.Item.ItemName} x{slot.Quantity} (Total Weight: {slot.Item.Weight * slot.Quantity})");
         }

@@ -3,8 +3,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponItem", menuName = "My Objects/WeaponItem")]
 public class WeaponItem : BaseItem, IWeapon
 {
-    [SerializeField] private float damage;
-    public float Damage => damage;
-    [SerializeField] private float range;
-    public float Range => range;
+    [Header("Weapon Item Properties")]
+    [SerializeField] private float _damage;
+    public float Damage => _damage;
+    [SerializeField] private float _range;
+    public float Range => _range;
+
+    void OnEnable()
+    {
+        _category = ItemCategory.Weapon;
+    }
+
 }
