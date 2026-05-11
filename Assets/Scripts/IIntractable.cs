@@ -1,5 +1,4 @@
-
-internal interface IInteractable
+public interface IInteractable
 {
-    public bool Interact(PlayerController player);
+    public bool Interact(PlayerInteraction player);
 }

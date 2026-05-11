@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class InteractableOject : MonoBehaviour, IInteractable
+public class InteractableObject : MonoBehaviour, IInteractable
 {
-    public bool Interact(PlayerController player)
+    public bool Interact(PlayerInteraction player)
     {
         Debug.Log("Interacted with " + gameObject.name);
         return true;

@@ -5,17 +5,17 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField]
     private List<InventorySlot> _inventorySlots = new();
-    public float TotalWeight => CalculateTotalWeight();
+    public float TotalWeight { get; private set; }
     public event System.Action OnInventoryChanged;
 
-    private float CalculateTotalWeight()
+    private void CalculateTotalWeight()
     {
         float totalWeight = 0f;
         foreach (var slot in _inventorySlots)
         {
             totalWeight += slot.Item.Weight * slot.Quantity;
         }
-        return totalWeight;
+        TotalWeight = totalWeight;
     }
     public void AddItem(BaseItem item, int quantity = 1)
     {
@@ -34,6 +34,7 @@ public class PlayerInventory : MonoBehaviour
         {
             _inventorySlots.Add(new InventorySlot(item, quantity));
         }
+        CalculateTotalWeight();
         OnInventoryChanged?.Invoke();
     }
     public void RemoveItem(BaseItem item, int quantity = 1)
@@ -52,18 +53,19 @@ public class PlayerInventory : MonoBehaviour
             {
                 _inventorySlots.Remove(existingSlot);
             }
+            CalculateTotalWeight();
+            OnInventoryChanged?.Invoke();
         }
         else
         {
             Debug.LogWarning($"Item '{item.ItemName}' not found in inventory.");
         }
-        OnInventoryChanged?.Invoke();
     }
 
     public BaseItem SearchItemByID(string id)
     {
         var slot = _inventorySlots.Find(s => s.Item.ID == id);
-        return slot != null ? slot.Item : null;
+        return slot?.Item;
     }
 
     public void ClearSlot(BaseItem item)
@@ -78,12 +80,13 @@ public class PlayerInventory : MonoBehaviour
         if (existingSlot != null)
         {
             _inventorySlots.Remove(existingSlot);
+            CalculateTotalWeight();
+            OnInventoryChanged?.Invoke();
         }
         else
         {
             Debug.LogWarning($"Item '{item.ItemName}' not found in inventory.");
         }
-        OnInventoryChanged?.Invoke();
     }
     public void ClearSlot(InventorySlot slot)
     {
@@ -96,16 +99,18 @@ public class PlayerInventory : MonoBehaviour
         if (_inventorySlots.Contains(slot))
         {
             _inventorySlots.Remove(slot);
+            CalculateTotalWeight();
+            OnInventoryChanged?.Invoke();
         }
         else
         {
             Debug.LogWarning("The specified inventory slot is not in the inventory.");
         }
-        OnInventoryChanged?.Invoke();
     }
     public void ClearInventory()
     {
         _inventorySlots.Clear();
+        TotalWeight = 0f;
         OnInventoryChanged?.Invoke();
     }
 
