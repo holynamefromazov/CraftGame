@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField]
-    private List<InventorySlot> _inventorySlots = new();
+    [SerializeField] private List<InventorySlot> _inventorySlots = new();
+    [SerializeField] private float _maxWeight = 50f;
+    [SerializeField] private float _criticalWeight = 70f;
+    public bool IsOverEncumbered => TotalWeight > _criticalWeight;
+    public bool IsEncumbered => TotalWeight > _maxWeight;
     public float TotalWeight { get; private set; }
     public event System.Action OnInventoryChanged;
 
@@ -59,6 +62,31 @@ public class PlayerInventory : MonoBehaviour
         else
         {
             Debug.LogWarning($"Item '{item.ItemName}' not found in inventory.");
+        }
+    }
+
+    public void SetItemQuantity(BaseItem item, int newQuantity)
+    {
+        if (item == null || newQuantity < 0)
+        {
+            Debug.LogError("Invalid item or quantity. Cannot set item quantity in the inventory.");
+            return;
+        }
+
+        var existingSlot = _inventorySlots.Find(slot => slot.Item.ID == item.ID);
+        if (existingSlot != null)
+        {
+            existingSlot.SetQuantity(newQuantity);
+            if (existingSlot.Quantity <= 0)
+            {
+                _inventorySlots.Remove(existingSlot);
+            }
+            CalculateTotalWeight();
+            OnInventoryChanged?.Invoke();
+        }
+        else
+        {
+            Debug.LogError($"Item '{item.ItemName}' not found in inventory.");
         }
     }
 

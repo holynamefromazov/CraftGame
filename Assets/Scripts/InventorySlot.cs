@@ -43,11 +43,6 @@ public class InventorySlot
         }
 
         Quantity -= amount;
-
-        if (Quantity <= 0)
-        {
-            ClearSlot();
-        }
     }
 
     public void SetQuantity(int newQuantity)
@@ -59,17 +54,5 @@ public class InventorySlot
         }
 
         Quantity = newQuantity;
-
-        if (Quantity == 0)
-        {
-            ClearSlot();
-        }
     }
-
-    public void ClearSlot()
-    {
-        Item = null;
-        Quantity = 0;
-    }
-
 }

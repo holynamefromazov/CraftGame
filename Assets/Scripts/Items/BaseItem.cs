@@ -22,7 +22,7 @@ public class BaseItem : ScriptableObject
     [SerializeField] private Sprite _itemIcon;
     public Sprite ItemIcon => _itemIcon;
     [SerializeField] private float _weight = 0.1f;
-    public float Weight => _weight;
+    public float Weight { get => _weight; set => _weight = Mathf.Max(0.1f, value); }
 #if UNITY_EDITOR
     private void OnEnable()
     {
@@ -34,17 +34,12 @@ public class BaseItem : ScriptableObject
 
         if (_itemIcon == null)
         {
-            Debug.LogWarning($"{this.GetType()} '{this.name}' does not have an icon assigned.");
-        }
-
-        if (_weight < 0)
-        {
-            Debug.LogWarning($"{this.GetType()} '{this.name}' has a negative weight ({_weight}). Weight should be a non-negative value.");
+            Debug.LogWarning($"{GetType()} '{name}' does not have an icon assigned.", this);
         }
     }
     private void IdAndNameSetup()
     {
-        _itemName = string.IsNullOrEmpty(_itemName) ? this.name : _itemName;
+        _itemName = string.IsNullOrEmpty(_itemName) ? name : _itemName;
         if (string.IsNullOrEmpty(_id))
         {
             _id = _itemName.ToLower().Replace(" ", "_");
