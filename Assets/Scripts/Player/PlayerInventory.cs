@@ -24,7 +24,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (item == null)
         {
-            Debug.LogWarning("Cannot add a null item to the inventory.");
+            Debug.LogError("Cannot add a null item to the inventory.");
             return;
         }
 
@@ -44,7 +44,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (item == null)
         {
-            Debug.LogWarning("Cannot remove a null item from the inventory.");
+            Debug.LogError("Cannot remove a null item from the inventory.");
             return;
         }
 
@@ -61,7 +61,7 @@ public class PlayerInventory : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"Item '{item.ItemName}' not found in inventory.");
+            Debug.LogError($"Item '{item.ItemName}' not found in inventory.");
         }
     }
 
@@ -100,7 +100,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (item == null)
         {
-            Debug.LogWarning("Cannot clear a null item from the inventory.");
+            Debug.LogError("Cannot clear a null item from the inventory.");
             return;
         }
 
@@ -113,14 +113,14 @@ public class PlayerInventory : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"Item '{item.ItemName}' not found in inventory.");
+            Debug.LogError($"Item '{item.ItemName}' not found in inventory.");
         }
     }
     public void ClearSlot(InventorySlot slot)
     {
         if (slot == null)
         {
-            Debug.LogWarning("Cannot clear a null inventory slot.");
+            Debug.LogError("Cannot clear a null inventory slot.");
             return;
         }
 
@@ -132,7 +132,7 @@ public class PlayerInventory : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("The specified inventory slot is not in the inventory.");
+            Debug.LogError("The specified inventory slot is not in the inventory.");
         }
     }
     public void ClearInventory()

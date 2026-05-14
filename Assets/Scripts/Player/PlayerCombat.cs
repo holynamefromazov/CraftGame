@@ -1,19 +1,30 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerEquipment _equipment;
     [SerializeField] private InputReader _inputReader;
-    [SerializeField] private Camera _playerCamera;
+    [SerializeField] private PlayerCamera _playerCamera;
     private RaycastHit _hitInfo;
-    private Ray _ray;
-
-    public void OnAttack()
+    private void Start()
     {
-
+        Assert.IsNotNull(_playerCamera, "PlayerCamera reference is not assigned.");
+        Assert.IsNotNull(_inputReader, "InputReader reference is not assigned.");
+        Assert.IsNotNull(_equipment, "PlayerEquipment reference is not assigned.");
+    }
+    private void OnEnable()
+    {
+        _inputReader.OnAttackEvent += OnAttack;
+    }
+    private void OnDisable()
+    {
+        _inputReader.OnAttackEvent -= OnAttack;
+    }
+    private void OnAttack()
+    {
         if (_equipment?.CurrentWeapon == null) return;
-        _ray = _playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        if (Physics.Raycast(_ray, out _hitInfo, _equipment.CurrentWeapon.Range))
+        if (_playerCamera.GetRayCastHit(out _hitInfo, _equipment.CurrentWeapon.Range))
         {
             var damageable = _hitInfo.collider.GetComponent<IDamageable>();
             if (damageable != null)

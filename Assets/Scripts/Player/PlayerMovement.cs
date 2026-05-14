@@ -35,12 +35,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Реализация интерфейса
-    public void HandleMoveInput(Vector2 moveInput)
+    private void HandleMoveInput(Vector2 moveInput)
     {
         _moveInput = moveInput;
     }
 
-    public void HandleJumpInput()
+    private void HandleJumpInput()
     {
         if (isGrounded)
         {

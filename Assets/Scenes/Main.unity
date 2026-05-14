@@ -736,7 +736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d494898bf5faaf4cb5bd7fe8dfb8b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
-  _inventory: {fileID: 0}
+  _inventory: {fileID: 1443262707}
 --- !u!114 &1443262707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,6 +749,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510511e4584e1894faf80a445599b9a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  _maxWeight: 50
+  _criticalWeight: 70
 --- !u!143 &1443262708
 CharacterController:
   m_ObjectHideFlags: 0
@@ -788,7 +790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
   _inventory: {fileID: 1443262707}
   _inputReader: {fileID: 1443262712}
-  _playerCamera: {fileID: 490384744}
+  _playerCamera: {fileID: 1443262710}
   _interactionRange: 2
   _interactionLayerMask:
     serializedVersion: 2
@@ -853,7 +855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   _equipment: {fileID: 1443262706}
   _inputReader: {fileID: 1443262712}
-  _playerCamera: {fileID: 490384744}
+  _playerCamera: {fileID: 1443262710}
 --- !u!1 &1784472112
 GameObject:
   m_ObjectHideFlags: 0

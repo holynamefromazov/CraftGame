@@ -16,7 +16,7 @@ public class InventorySlot
 
         if (quantity < 1)
         {
-            Debug.LogWarning("Quantity cannot be less than 1. Setting quantity to 1.");
+            Debug.LogError("Quantity cannot be less than 1. Setting quantity to 1.");
             Quantity = 1;
             return;
         }
@@ -27,7 +27,7 @@ public class InventorySlot
     {
         if (amount < 0)
         {
-            Debug.LogWarning("Cannot add a negative quantity.");
+            Debug.LogError("Cannot add a negative quantity.");
             return;
         }
 
@@ -38,7 +38,7 @@ public class InventorySlot
     {
         if (amount < 0)
         {
-            Debug.LogWarning("Cannot remove a negative quantity.");
+            Debug.LogError("Cannot remove a negative quantity.");
             return;
         }
 
@@ -49,7 +49,7 @@ public class InventorySlot
     {
         if (newQuantity < 0)
         {
-            Debug.LogWarning("Quantity cannot be set to a negative value.");
+            Debug.LogError("Quantity cannot be set to a negative value.");
             return;
         }
 

@@ -1,14 +1,20 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class PlayerInteraction : MonoBehaviour
 {
     [SerializeField] private PlayerInventory _inventory;
     [SerializeField] private InputReader _inputReader;
-    [SerializeField] private Camera _playerCamera;
+    [SerializeField] private PlayerCamera _playerCamera;
     [SerializeField] private float _interactionRange = 1f;
     [SerializeField] private LayerMask _interactionLayerMask = 1 << 6; // Default to "Interactive" layer
     private RaycastHit _hitInfo;
-    private Ray _ray;
+    private void Start()
+    {
+        Assert.IsNotNull(_inventory, "PlayerInventory reference is not assigned in PlayerInteraction.");
+        Assert.IsNotNull(_inputReader, "InputReader reference is not assigned in PlayerInteraction.");
+        Assert.IsNotNull(_playerCamera, "PlayerCamera reference is not assigned in PlayerInteraction.");
+    }
 
     private void OnEnable()
     {
@@ -24,10 +30,9 @@ public class PlayerInteraction : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void OnInteract()
+    private void OnInteract()
     {
-        _ray = _playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        if (Physics.Raycast(_ray, out _hitInfo, _interactionRange, _interactionLayerMask))
+        if (_playerCamera.GetRayCastHit(out _hitInfo, _interactionRange, _interactionLayerMask))
         {
             if (_hitInfo.collider.TryGetComponent(out IInteractable interactable))
             {

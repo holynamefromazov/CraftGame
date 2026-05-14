@@ -1,19 +1,23 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class PlayerEquipment : MonoBehaviour
 {
-    [SerializeField] private IWeapon _currentWeapon;
-    public IWeapon CurrentWeapon => _currentWeapon;
     [SerializeField] private PlayerInventory _inventory;
+    public IWeapon CurrentWeapon { get; private set; }
+    private void Start()
+    {
+        Assert.IsNotNull(_inventory, "PlayerInventory reference is not assigned.");
+    }
     public void EquipWeapon(IWeapon weapon)
     {
         if (weapon != null)
         {
-            _currentWeapon = weapon;
+            CurrentWeapon = weapon;
         }
         else
         {
-            Debug.LogWarning("Attempted to equip a null weapon.");
+            Debug.LogError("Attempted to equip a null weapon.");
         }
     }
 }

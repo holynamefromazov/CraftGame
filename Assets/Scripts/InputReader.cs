@@ -19,11 +19,11 @@ public class InputReader : MonoBehaviour, InputControl.IPlayerActions
         // Назначаем этот скрипт как обработчик
         _inputControl.Player.SetCallbacks(this);
     }
-    public void OnEnable()
+    private void OnEnable()
     {
         _inputControl.Player.Enable();
     }
-    public void OnDisable()
+    private void OnDisable()
     {
         _inputControl.Player.Disable();
     }

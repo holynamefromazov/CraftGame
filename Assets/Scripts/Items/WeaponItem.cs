@@ -9,7 +9,7 @@ public class WeaponItem : BaseItem, IWeapon
     [SerializeField] private float _range;
     public float Range => _range;
 
-    void OnEnable()
+    private void OnEnable()
     {
         _category = ItemCategory.Weapon;
     }
